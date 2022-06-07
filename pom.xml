@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.openmrs.maven.parents</groupId>
+        <artifactId>maven-parent-openmrs-module</artifactId>
+        <version>1.1.0</version>
+    </parent>
+
+	<groupId>org.openmrs.module</groupId>
+	<artifactId>isanteplusfhir</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Isanteplusfhir</name>
+	<description>iSantePlus-specific mappings between the iSantePlus data model and FHIR resources provided by the OpenMRS FHIR2 module</description>
+
+	<url>https://wiki.openmrs.org/x/FQ4z</url>
+
+	<scm>
+		<connection>scm:git:git@github.com:openmrs/openmrs-module-isanteplusfhir.git</connection>
+		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-isanteplusfhir.git</developerConnection>
+		<url>https://github.com/openmrs/openmrs-module-isanteplusfhir/</url>
+	</scm>
+
+	<modules>
+		<module>api</module>
+		<module>omod</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				 <groupId>org.openmrs.module</groupId>
+				<artifactId>htmlformentry-api</artifactId>
+				<version>${htmlformentryVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>3.0</version>
+          <configuration>
+            <header>..${file.separator}license-header.txt</header>
+            <headerDefinitions>
+              <headerDefinition>..${file.separator}license-format.xml</headerDefinition>
+            </headerDefinitions>
+            <mapping>
+              <java>JAVA_STYLE</java>
+              <xml>MYXML_STYLE</xml>
+            </mapping>
+            <includes>
+              <include>**/*.java</include>
+              <include>**/*.xml</include>
+              <include>**/*.properties</include>
+            </includes>
+            <excludes>
+              <exclude>**/pom.xml</exclude>
+              <exclude>**/target/**</exclude>
+              <exclude>.git/**</exclude>
+              <exclude>.idea/**</exclude>
+              <exclude>.settings/**</exclude>
+              <exclude>.externalToolBuilders/</exclude>
+              <exclude>nbproject/private/</exclude>
+              <exclude>.vscode/**</exclude>
+            </excludes>
+          </configuration>
+          <executions>
+            <execution>
+              <id>check-license</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <phase>validate</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>net.revelc.code.formatter</groupId>
+          <artifactId>formatter-maven-plugin</artifactId>
+          <version>2.11.0</version>
+          <configuration>
+            <lineEnding>LF</lineEnding>
+            <configFile>eclipse/OpenMRSFormatter.xml</configFile>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.openmrs.tools</groupId>
+              <artifactId>openmrs-tools</artifactId>
+              <version>${openmrsPlatformVersion}</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <goals>
+                <goal>format</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>net.revelc.code</groupId>
+          <artifactId>impsort-maven-plugin</artifactId>
+          <version>1.3.2</version>
+          <configuration>
+            <groups>javax, java, *</groups>
+            <removeUnused>true</removeUnused>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>sort</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+<repositories>
+    <repository>
+      <id>openmrs-repo</id>
+      <name>OpenMRS Nexus Repository</name>
+      <url>https://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+    </repository>
+    <repository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>openmrs-repo</id>
+      <name>OpenMRS Nexus Repository</name>
+      <url>https://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+  <profiles>
+    <profile>
+      <!-- Github Packages Integration -->
+      <id>github-packages</id>
+      <distributionManagement>
+        <!-- Deploy to Github Packages -->
+        <repository>
+          <id>github-packages</id>
+          <name>Github Maven Repo</name>
+          <url>https://maven.pkg.github.com/i-tech-uw/openmrs-module-labonfhir</url>
+          <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+          <id>github-packages</id>
+          <name>Github Maven Repo</name>
+          <url>https://maven.pkg.github.com/i-tech-uw/openmrs-module-labonfhir</url>
+          <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+      </distributionManagement>
+      <repositories>
+        <!-- Use the Github Packages Repo first when looking up dependencies -->
+        <repository>
+          <id>github-packages</id>
+          <name>Github Maven Repo</name>
+          <url>https://maven.pkg.github.com/i-tech-uw/openmrs-module-labonfhir</url>
+        </repository>
+      </repositories>
+
+    </profile>
+  </profiles>
+
+	<properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+    <openmrsPlatformVersion>2.0.5</openmrsPlatformVersion>
+    <htmlformentryVersion>3.9.2</htmlformentryVersion>
+	</properties>
+</project>
