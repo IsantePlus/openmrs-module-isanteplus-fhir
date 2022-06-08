@@ -36,7 +36,10 @@
 		<class>@MODULE_PACKAGE@.advice.DuplicateFormAdvisor</class>
 	</advice>
 	 /AOP -->
-	
+	<advice>
+		<point>org.openmrs.api.EncounterService</point>
+		<class>org.openmrs.module.isanteplusfhir.api.aop.EncounterServiceRoundAdvise</class>
+	</advice>
 	
 	<!-- Required Privileges 
 	<privilege>
