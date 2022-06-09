@@ -7,7 +7,7 @@
 	<name>${project.parent.name}</name>
 	<version>${project.parent.version}</version>
 	<package>org.openmrs.module.isanteplusfhir</package>
-	<author>moses</author>
+	<author>moses mutesa</author>
 	<description>
 			${project.parent.description}
 	</description>
@@ -38,7 +38,7 @@
 	 /AOP -->
 	<advice>
 		<point>org.openmrs.api.EncounterService</point>
-		<class>org.openmrs.module.isanteplusfhir.api.aop.EncounterServiceRoundAdvise</class>
+		<class>@MODULE_PACKAGE@.api.advice.EncounterServiceRoundAdvice</class>
 	</advice>
 	
 	<!-- Required Privileges 
@@ -49,17 +49,12 @@
 	 /Required Privileges -->
 
 
-	<!-- Required Global Properties 
+	<!-- Required Global Properties  -->
 	<globalProperty>
-		<property>@MODULE_ID@.someProperty</property>
-		<defaultValue></defaultValue>
-		<description>
-			A description of the global property goes here.  The description
-			should explain enough for administrators to understand the purpose
-			and possible values for the global property.
-		</description>
+		<property>@MODULE_ID@.LaboratoryFormName</property>
+		<description>The Name of the Laboratory Form for Capturing Laborders</description>
+		<defaultValue>Analyse de Laboratoire</defaultValue>
 	</globalProperty>
-	/Required Global Properties -->
 	
 	<!--
 	<dwr>

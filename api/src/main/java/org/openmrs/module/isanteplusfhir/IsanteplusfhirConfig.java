@@ -18,4 +18,6 @@ import org.springframework.stereotype.Component;
 public class IsanteplusfhirConfig {
 	
 	public final static String MODULE_PRIVILEGE = "Isanteplusfhir Privilege";
+
+	public final static String GP_LABORATORY_FORM_NAME = "isanteplusfhir.LaboratoryFormName";
 }
