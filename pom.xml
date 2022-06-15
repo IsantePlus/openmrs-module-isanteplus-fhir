@@ -155,13 +155,13 @@
         <repository>
           <id>github-packages</id>
           <name>Github Maven Repo</name>
-          <url>https://maven.pkg.github.com/i-tech-uw/openmrs-module-labonfhir</url>
+          <url>https://maven.pkg.github.com/isanteplus/isanteplus-packages</url>
           <uniqueVersion>false</uniqueVersion>
         </repository>
         <snapshotRepository>
           <id>github-packages</id>
           <name>Github Maven Repo</name>
-          <url>https://maven.pkg.github.com/i-tech-uw/openmrs-module-labonfhir</url>
+          <url>https://maven.pkg.github.com/isanteplus/isanteplus-packages</url>
           <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
       </distributionManagement>
@@ -170,7 +170,7 @@
         <repository>
           <id>github-packages</id>
           <name>Github Maven Repo</name>
-          <url>https://maven.pkg.github.com/i-tech-uw/openmrs-module-labonfhir</url>
+          <url>https://maven.pkg.github.com/isanteplus/isanteplus-packages</url>
         </repository>
       </repositories>
 
