@@ -10,7 +10,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>isanteplusfhir</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>Isanteplusfhir</name>
 	<description>iSantePlus-specific mappings between the iSantePlus data model and FHIR resources provided by the OpenMRS FHIR2 module</description>
