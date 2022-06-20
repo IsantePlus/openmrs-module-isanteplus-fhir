@@ -2,8 +2,8 @@ package org.openmrs.module.isanteplusfhir.api.advice;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.aopalliance.aop.Advice;
@@ -12,6 +12,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.TestOrder;
 import org.openmrs.api.AdministrationService;
@@ -33,6 +34,10 @@ public class EncounterServiceRoundAdvice extends StaticMethodMatcherPointcutAdvi
     private static final String TEST_CLASS = "Test";
 
     private static final String LAB_FORM_NAME = "Analyse de Laboratoire";
+
+    private static final Integer DESTINATION_CONCEPT_ID = 160632;
+
+    private static final String OPENELIS_DESTINATION = "OpenELIS";
 
     private Log log = LogFactory.getLog(this.getClass());
 
@@ -58,32 +63,41 @@ public class EncounterServiceRoundAdvice extends StaticMethodMatcherPointcutAdvi
                 log.debug("captured encounter " + encounter.getUuid());
                 if (encounter.getForm() != null) {
                     if (encounter.getForm().getName().equals(labFormName)) {
-                        Set<Concept> testConcepts = new HashSet<>();
-                        encounter.getObs().forEach(obs -> {
-                            if (obs.getValueCoded() != null) {
-                                if (obs.getValueCoded().getConceptClass().getName().equals(TEST_CLASS)) {
-                                    testConcepts.add(obs.getValueCoded());
+
+                        Optional<Obs> destinationObs = encounter.getObs().stream()
+                                .filter(obs -> obs.getConcept().getConceptId().equals(DESTINATION_CONCEPT_ID))
+                                .findFirst();
+                        if (destinationObs.isPresent()) {
+                            if (destinationObs.get().getValueText().equals(OPENELIS_DESTINATION)) {
+                                Set<Concept> testConcepts = new HashSet<>();
+                                encounter.getObs().forEach(obs -> {
+                                    if (obs.getValueCoded() != null) {
+                                        if (obs.getValueCoded().getConceptClass().getName().equals(TEST_CLASS)) {
+                                            testConcepts.add(obs.getValueCoded());
+                                        }
+                                    }
+
+                                });
+                                Set<Order> orders = testConcepts.stream().map(testConcept -> {
+                                    TestOrder order = new TestOrder();
+                                    order.setConcept(testConcept);
+                                    order.setEncounter(encounter);
+                                    order.setPatient(encounter.getPatient());
+                                    order.setOrderer(
+                                            encounter.getEncounterProviders().stream().findFirst().get().getProvider());
+                                    order.setCareSetting(careSetting);
+                                    return order;
+                                }).collect(Collectors.toSet());
+
+                                encounter.setOrders(orders);
+                                if (methodInvocation instanceof ReflectiveMethodInvocation) {
+                                    ReflectiveMethodInvocation invocation = (ReflectiveMethodInvocation) methodInvocation;
+                                    args[0] = encounter;
+                                    invocation.setArguments(args);
                                 }
                             }
-
-                        });
-                        Set<Order> orders = testConcepts.stream().map(testConcept -> {
-                            TestOrder order = new TestOrder();
-                            order.setConcept(testConcept);
-                            order.setEncounter(encounter);
-                            order.setPatient(encounter.getPatient());
-                            order.setOrderer(
-                                    encounter.getEncounterProviders().stream().findFirst().get().getProvider());
-                            order.setCareSetting(careSetting);
-                            return order;
-                        }).collect(Collectors.toSet());
-
-                        encounter.setOrders(orders);
-                        if (methodInvocation instanceof ReflectiveMethodInvocation) {
-                            ReflectiveMethodInvocation invocation = (ReflectiveMethodInvocation) methodInvocation;
-                            args[0] = encounter;
-                            invocation.setArguments(args);
                         }
+
                         log.info("EncounterAdvice Complemented Mofidying the Form Encounter : " + labFormName);
                     }
                 }

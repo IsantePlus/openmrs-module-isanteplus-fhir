@@ -20,9 +20,9 @@
 	<require_version>${openmrsPlatformVersion}</require_version>
 
 	<require_modules>
-		<require_module>
+		<!-- <require_module>
 			org.openmrs.module.htmlformentry
-		</require_module>
+		</require_module> -->
 	</require_modules>
 	
 	<aware_of_modules>

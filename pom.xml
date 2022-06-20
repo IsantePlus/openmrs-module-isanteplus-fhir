@@ -10,7 +10,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>isanteplusfhir</artifactId>
-	<version>1.0.0</version>
+	<version>${moduleVersion}</version>
 	<packaging>pom</packaging>
 	<name>Isanteplusfhir</name>
 	<description>iSantePlus-specific mappings between the iSantePlus data model and FHIR resources provided by the OpenMRS FHIR2 module</description>
@@ -30,12 +30,7 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				 <groupId>org.openmrs.module</groupId>
-				<artifactId>htmlformentry-api</artifactId>
-				<version>${htmlformentryVersion}</version>
-				<scope>provided</scope>
-			</dependency>
+			
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -178,6 +173,7 @@
   </profiles>
 
 	<properties>
+    <moduleVersion>1.0.1</moduleVersion>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
