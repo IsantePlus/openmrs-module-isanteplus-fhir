@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>isanteplusfhir</artifactId>
-		<version>1.0.0</version>
+		<version>${moduleVersion}</version>
 	</parent>
 
 	<artifactId>isanteplusfhir-omod</artifactId>
