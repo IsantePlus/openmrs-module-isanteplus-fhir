@@ -25,6 +25,9 @@
     </build>
 
 	<dependencies>
-
+	    <dependency>
+             <groupId>org.openmrs.module</groupId>
+            <artifactId>htmlformentry-api</artifactId>
+        </dependency>
     </dependencies>
 </project>
